@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How To: Konfigurasi Ujian</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+body { font-family: 'Inter', sans-serif; }
+.text-fluid-xs { font-size: clamp(11px, 2vh, 13px); }
+.text-fluid-sm { font-size: clamp(13px, 2.5vh, 15px); }
+.text-fluid-base { font-size: clamp(15px, 3vh, 20px); }
+.text-fluid-title { font-size: clamp(22px, 5vh, 42px); }
+</style>
+</head>
+
+<body class="bg-black text-white min-h-screen overflow-y-auto flex items-start justify-center p-4">
+
+<div class="w-full max-w-3xl flex flex-col relative z-10">
+
+<!-- HEADER (TIDAK DIUBAH) -->
+<div class="shrink-0 mb-6">
+    <h1 class="text-fluid-title font-extrabold bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent inline-block mb-2">
+        How to: Konfigurasi Ujian
+    </h1>
+    <p class="text-gray-300 text-fluid-sm text-left leading-relaxed border-l-4 border-purple-500 pl-3">
+        Untuk alasan integritas, ujian hanya dapat dilaksanakan menggunakan aplikasi di bawah ini. Silahkan pilih perangkat yang kamu gunakan untuk ujian:
+    </p>
+</div>
+
+<!-- PILIH PLATFORM (DISERHANAKAN) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+
+    <button onclick="pilihPlatform('android')"
+        class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition text-lg">
+        ANDROID
+    </button>
+
+    <button onclick="pilihPlatform('apple')"
+        class="bg-white hover:bg-gray-200 text-black font-bold py-4 rounded-xl transition text-lg">
+        APPLE / iPHONE / iPAD / MAC
+    </button>
+
+</div>
+
+<!-- HASIL -->
+<div class="flex flex-col items-center gap-8">
+
+    <!-- ANDROID -->
+    <div id="section-android" class="hidden flex flex-col items-center gap-6 text-center">
+
+<div class="bg-white p-4 rounded-lg shadow-lg 
+    w-[280px] h-[280px] 
+    md:w-[340px] md:h-[340px]
+    flex items-center justify-center">
+
+    <img src="exo.png" class="w-full h-full object-contain">
+</div>
+        <a href="https://play.google.com/store/apps/details?id=id.shellrean.exocbt.browser&hl=id"
+           target="_blank"
+           class="bg-green-500 flex items-center gap-3 px-6 py-3 rounded-xl shadow-lg hover:scale-105 transition">
+
+            <img src="https://play-lh.googleusercontent.com/NJj3I3riMfUtw_9qHH9nDA58oRiNeqeAvyJEziay2k37k7yjmyQzDY195lntqD7aqQ=w240-h480-rw"
+                 class="h-6 w-6 object-contain bg-white rounded-md p-1">
+
+            Download Extraordinary CBT
+        </a>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 text-left text-gray-300 text-sm leading-relaxed max-w-xl">
+            <h3 class="text-white font-bold mb-3">Cara Menggunakan (Android)</h3>
+            1. Download dan install aplikasi.<br>
+            2. Buka aplikasi tersebut dan izinkan mode jangan ganggu.<br>
+            3. Scan QR Code di atas untuk masuk ke ujian.<br><br>
+            <b>Penting:</b><br>
+            • Jangan keluar dari aplikasi saat ujian.<br>
+            • Pastikan baterai dan internet stabil.<br>
+	• Tidak ada pembukaan blokir.
+        </div>
+
+    </div>
+
+    <!-- APPLE -->
+    <div id="section-apple" class="hidden flex flex-col items-center gap-6 text-center">
+
+        <a href="https://apps.apple.com/id/app/safeexambrowser/id1155002964?l=id"
+           target="_blank"
+           class="bg-white text-black flex items-center gap-3 px-6 py-3 rounded-xl shadow-lg hover:scale-105 transition">
+
+            <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a0/c9/43/a0c94383-a702-e34b-b1cf-089332b10a31/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/200x200ia-75.webp"
+                 class="h-6 w-6 object-contain">
+
+            Download SafeExamBrowser
+        </a>
+
+        <a href="ujian.seb" download
+           class="bg-gray-800 border border-gray-600 px-6 py-3 rounded-xl shadow-lg hover:bg-gray-700 transition">
+            Download File Ujian (.seb)
+        </a>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 text-left text-gray-300 text-sm leading-relaxed max-w-xl">
+            <h3 class="text-white font-bold mb-3">Cara Menggunakan (Apple)</h3>
+            1. Download dan install SafeExamBrowser.<br>
+            2. Download file ujian (.seb).<br>
+            3. Buka file ujian (.seb) tersebut untuk masuk ke ujian atau bagikan ke SEB.<br><br>
+            <b>Penting:</b><br>
+            • Jangan menutup aplikasi selama ujian.<br>
+            • Jangan membuka aplikasi lain.<br>
+	• Tidak ada pembukaan blokir.
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="mt-12 flex justify-center">
+
+    <a href="https://wa.me/628558833128"
+       target="_blank"
+       class="bg-green-600 hover:bg-green-700 
+              text-white font-bold 
+              px-8 py-4 
+              rounded-xl 
+              shadow-lg 
+              transition 
+              flex items-center gap-3">
+
+        <!-- Icon WhatsApp -->
+        <svg xmlns="http://www.w3.org/2000/svg" 
+             viewBox="0 0 24 24" 
+             fill="currentColor" 
+             class="w-6 h-6">
+            <path d="M20.52 3.48A11.82 11.82 0 0012.01 0C5.38 0 .02 5.36.02 12c0 2.11.55 4.17 1.59 5.99L0 24l6.18-1.61A11.94 11.94 0 0012 24c6.63 0 11.99-5.36 11.99-12 0-3.2-1.25-6.2-3.47-8.52zM12 21.82c-1.88 0-3.72-.5-5.33-1.44l-.38-.22-3.67.96.98-3.58-.25-.37A9.77 9.77 0 012.23 12c0-5.39 4.38-9.77 9.77-9.77 2.61 0 5.06 1.02 6.91 2.86A9.73 9.73 0 0121.77 12c0 5.39-4.38 9.82-9.77 9.82z"/>
+        </svg>
+
+        Jika Mengalami Kendala, Hubungi Pak Ugas
+    </a>
+
+</div>
+
+<!-- KUTIPAN -->
+<div class="mt-16 text-center">
+    <h2 class="text-3xl md:text-5xl font-bold mb-5">
+        "Ujian sesungguhnya adalah integritasmu 
+        <span class="bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent">
+            saat tidak ada yang melihat.
+        </span>"
+    </h2>
+</div>
+
+</div>
+
+
+
+<script>
+function pilihPlatform(platform) {
+    const android = document.getElementById('section-android');
+    const apple = document.getElementById('section-apple');
+
+    android.classList.add('hidden');
+    apple.classList.add('hidden');
+
+    if (platform === 'android') {
+        android.classList.remove('hidden');
+    } else {
+        apple.classList.remove('hidden');
+    }
+}
+</script>
+
+</body>
+</html>
