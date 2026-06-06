@@ -1,175 +1,700 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>How To: Konfigurasi Ujian</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfigurasi Ujian — Extraordinary CBT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .hide { display: none !important; }
 
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+        /* Anamorphic glass effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        .glass-card.active {
+            background: rgba(236, 72, 153, 0.06);
+            border-color: rgba(236, 72, 153, 0.3);
+            box-shadow: 0 0 40px rgba(236, 72, 153, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
 
-<style>
-body { font-family: 'Inter', sans-serif; }
-.text-fluid-xs { font-size: clamp(11px, 2vh, 13px); }
-.text-fluid-sm { font-size: clamp(13px, 2.5vh, 15px); }
-.text-fluid-base { font-size: clamp(15px, 3vh, 20px); }
-.text-fluid-title { font-size: clamp(22px, 5vh, 42px); }
-</style>
+        /* Anamorphic blur orbs */
+        .orb-pink {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -200px;
+            left: -100px;
+            pointer-events: none;
+            filter: blur(60px);
+        }
+        .orb-purple {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            top: 50%;
+            right: -150px;
+            pointer-events: none;
+            filter: blur(80px);
+        }
+        .orb-cyan {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            bottom: -100px;
+            left: 30%;
+            pointer-events: none;
+            filter: blur(70px);
+        }
+
+        /* Step connector */
+        .step-connector {
+            height: 2px;
+            transition: background 0.5s ease;
+        }
+        .step-dot {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Wizard animation */
+        .wizard-section {
+            animation: wizardIn 0.4s ease-out forwards;
+        }
+        @keyframes wizardIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Button glow */
+        .btn-primary:hover {
+            box-shadow: 0 12px 40px rgba(236, 72, 153, 0.3);
+        }
+
+        /* Platform card interaction */
+        .platform-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        .platform-card:hover {
+            transform: translateY(-2px);
+        }
+        .platform-card:active {
+            transform: scale(0.98);
+        }
+
+        /* Live dot - color changing */
+        .live-dot {
+            animation: dotColorShift 4s ease-in-out infinite;
+            box-shadow: 0 0 6px currentColor;
+        }
+        @keyframes dotColorShift {
+            0%, 100% { background-color: #ec4899; box-shadow: 0 0 8px rgba(236, 72, 153, 0.6); }
+            33% { background-color: #a855f7; box-shadow: 0 0 8px rgba(168, 85, 247, 0.6); }
+            66% { background-color: #06b6d4; box-shadow: 0 0 8px rgba(6, 182, 212, 0.6); }
+        }
+
+        /* Typing caret */
+        .typing-caret {
+            display: inline-block;
+            width: 3px;
+            height: 0.85em;
+            margin-left: 2px;
+            background: linear-gradient(to bottom, #ec4899, #a855f7);
+            animation: caretBlink 0.8s steps(2, start) infinite;
+            vertical-align: -0.05em;
+            border-radius: 2px;
+        }
+        @keyframes caretBlink {
+            50% { opacity: 0; }
+        }
+    </style>
 </head>
 
-<body class="bg-black text-white min-h-screen overflow-y-auto flex items-start justify-center p-4">
+<body class="bg-black text-white min-h-screen antialiased overflow-x-hidden">
 
-<div class="w-full max-w-3xl flex flex-col relative z-10">
+    <!-- Anamorphic Glass Orbs -->
+    <div class="orb-pink"></div>
+    <div class="orb-purple"></div>
+    <div class="orb-cyan"></div>
 
-<!-- HEADER (TIDAK DIUBAH) -->
-<div class="shrink-0 mb-6">
-    <h1 class="text-fluid-title font-extrabold bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent inline-block mb-2">
-        How to: Konfigurasi Ujian
-    </h1>
-    <p class="text-gray-300 text-fluid-sm text-left leading-relaxed border-l-4 border-purple-500 pl-3">
-        Untuk alasan integritas, ujian hanya dapat dilaksanakan menggunakan aplikasi di bawah ini. Silahkan pilih perangkat yang kamu gunakan untuk ujian:
-    </p>
-</div>
 
-<!-- PILIH PLATFORM (DISERHANAKAN) -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
 
-    <button onclick="pilihPlatform('android')"
-        class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition text-lg">
-        ANDROID
-    </button>
+    <!-- Main -->
+    <main class="relative z-10 pt-16 pb-16 px-6 min-h-screen flex flex-col items-center">
 
-    <button onclick="pilihPlatform('apple')"
-        class="bg-white hover:bg-gray-200 text-black font-bold py-4 rounded-xl transition text-lg">
-        APPLE / iPHONE / iPAD / MAC
-    </button>
+        <!-- Header -->
+        <header class="text-center mb-12 max-w-xl">
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 border border-gray-800 rounded-full mb-6">
+                <span class="live-dot w-2 h-2 rounded-full"></span>
+                <span class="text-sm text-gray-300">Panduan Konfigurasi CBT SMAN 1 Lubai Ulu</span>
+            </div>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-5 min-h-[3.5rem] sm:min-h-[4rem] md:min-h-[4.5rem]">
+                <span id="typed-title" style="background:linear-gradient(90deg,#ec4899,#a855f7,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"></span><span id="caret-title" class="typing-caret"></span>
+            </h1>
+            <p class="text-lg text-gray-300 max-w-lg mx-auto leading-relaxed min-h-[3.5rem]">
+                <span id="typed-desc"></span><span id="caret-desc" class="typing-caret" style="display:none;"></span>
+            </p>
+        </header>
 
-</div>
-
-<!-- HASIL -->
-<div class="flex flex-col items-center gap-8">
-
-    <!-- ANDROID -->
-    <div id="section-android" class="hidden flex flex-col items-center gap-6 text-center">
-
-<div class="bg-white p-4 rounded-lg shadow-lg 
-    w-[280px] h-[280px] 
-    md:w-[340px] md:h-[340px]
-    flex items-center justify-center">
-
-    <img src="exo.png" class="w-full h-full object-contain">
-</div>
-        <a href="https://play.google.com/store/apps/details?id=id.shellrean.exocbt.browser&hl=id"
-           target="_blank"
-           class="bg-green-500 flex items-center gap-3 px-6 py-3 rounded-xl shadow-lg hover:scale-105 transition">
-
-            <img src="https://play-lh.googleusercontent.com/NJj3I3riMfUtw_9qHH9nDA58oRiNeqeAvyJEziay2k37k7yjmyQzDY195lntqD7aqQ=w240-h480-rw"
-                 class="h-6 w-6 object-contain bg-white rounded-md p-1">
-
-            Download Extraordinary CBT
-        </a>
-
-        <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 text-left text-gray-300 text-sm leading-relaxed max-w-xl">
-            <h3 class="text-white font-bold mb-3">Cara Menggunakan (Android)</h3>
-            1. Download dan install aplikasi.<br>
-            2. Buka aplikasi tersebut dan izinkan mode jangan ganggu.<br>
-            3. Scan QR Code di atas untuk masuk ke ujian.<br><br>
-            <b>Penting:</b><br>
-            • Jangan keluar dari aplikasi saat ujian.<br>
-            • Pastikan baterai dan internet stabil.<br>
-	• Tidak ada pembukaan blokir.
+        <!-- Step Progress -->
+        <div class="w-full max-w-sm sm:max-w-md mb-12">
+            <div class="flex items-center justify-between">
+                <!-- Step 1 -->
+                <div class="flex flex-col items-center">
+                    <div id="dot-1" class="step-dot w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold bg-gradient-to-br from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/30">
+                        1
+                    </div>
+                    <span id="lbl-1" class="text-[11px] mt-2 font-medium text-pink-400">Perangkat</span>
+                </div>
+                <!-- Connector -->
+                <div class="flex-1 mx-2">
+                    <div id="conn-1" class="step-connector bg-gray-800 rounded-full"></div>
+                </div>
+                <!-- Step 2 -->
+                <div class="flex flex-col items-center">
+                    <div id="dot-2" class="step-dot w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold bg-gray-900 text-gray-500 border border-gray-800">
+                        2
+                    </div>
+                    <span id="lbl-2" class="text-[11px] mt-2 font-medium text-gray-500">Install</span>
+                </div>
+                <!-- Connector -->
+                <div class="flex-1 mx-2">
+                    <div id="conn-2" class="step-connector bg-gray-800 rounded-full"></div>
+                </div>
+                <!-- Step 3 -->
+                <div class="flex flex-col items-center">
+                    <div id="dot-3" class="step-dot w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold bg-gray-900 text-gray-500 border border-gray-800">
+                        3
+                    </div>
+                    <span id="lbl-3" class="text-[11px] mt-2 font-medium text-gray-500">Konfigurasi</span>
+                </div>
+                <!-- Connector -->
+                <div class="flex-1 mx-2">
+                    <div id="conn-3" class="step-connector bg-gray-800 rounded-full"></div>
+                </div>
+                <!-- Step 4 -->
+                <div class="flex flex-col items-center">
+                    <div id="dot-4" class="step-dot w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold bg-gray-900 text-gray-500 border border-gray-800">
+                        4
+                    </div>
+                    <span id="lbl-4" class="text-[11px] mt-2 font-medium text-gray-500">Simulasi</span>
+                </div>
+            </div>
         </div>
 
-    </div>
+        <!-- Wizard -->
+        <div class="w-full max-w-xl">
 
-    <!-- APPLE -->
-    <div id="section-apple" class="hidden flex flex-col items-center gap-6 text-center">
+            <!-- ===== STEP 1: Pilih Perangkat ===== -->
+            <section id="step-1" class="wizard-section">
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-white mb-2">Pilih perangkat</h2>
+                    <p class="text-gray-400">Perangkat apa yang akan kamu gunakan saat ujian?</p>
+                </div>
 
-        <a href="https://apps.apple.com/id/app/safeexambrowser/id1155002964?l=id"
-           target="_blank"
-           class="bg-white text-black flex items-center gap-3 px-6 py-3 rounded-xl shadow-lg hover:scale-105 transition">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Android -->
+                    <button onclick="selectPlatform('android')" id="card-android"
+                        class="platform-card glass-card rounded-2xl p-6 text-left focus:outline-none focus:ring-2 focus:ring-pink-500/40">
+                        <div class="w-12 h-12 bg-gradient-to-br from-pink-500/20 to-rose-500/20 rounded-2xl flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-pink-400" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.523 15.341a.996.996 0 0 0 .993-1V8.007a.996.996 0 0 0-1.993 0v6.334c0 .553.446 1 .993 1h.007zM5.483 15.341a.996.996 0 0 0 .993-1V8.007a.996.996 0 0 0-1.993 0v6.334c0 .553.446 1 .993 1h.007zM14.18 2.64l.914-1.51a.2.2 0 0 0-.07-.276.2.2 0 0 0-.272.071l-.93 1.535A5.647 5.647 0 0 0 12 2.051c-.717 0-1.396.146-2.013.408L9.057.924A.2.2 0 0 0 8.785.853a.2.2 0 0 0-.07.276l.914 1.51C8.127 3.476 7.094 5.166 7.094 7.093h9.812c0-1.927-1.033-3.617-2.726-4.453zM9.88 5.378a.495.495 0 1 1 0-.99.495.495 0 0 1 0 .99zm4.24 0a.495.495 0 1 1 0-.99.495.495 0 0 1 0 .99zM7.094 15.4c0 .607.476 1.1 1.063 1.1h.724v2.197a.996.996 0 0 0 1.993 0v-2.196h2.252v2.196a.996.996 0 0 0 1.993 0V16.5h.724c.587 0 1.063-.493 1.063-1.1V7.596H7.094V15.4z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-white font-semibold text-lg mb-1">Android</h3>
+                        <p class="text-gray-400 text-sm">HP & Tablet Android</p>
+                    </button>
 
-            <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a0/c9/43/a0c94383-a702-e34b-b1cf-089332b10a31/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/200x200ia-75.webp"
-                 class="h-6 w-6 object-contain">
+                    <!-- Apple -->
+                    <button onclick="selectPlatform('apple')" id="card-apple"
+                        class="platform-card glass-card rounded-2xl p-6 text-left focus:outline-none focus:ring-2 focus:ring-pink-500/40">
+                        <div class="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 rounded-2xl flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-gray-300" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-white font-semibold text-lg mb-1">Apple</h3>
+                        <p class="text-gray-400 text-sm">iPhone, iPad, Mac</p>
+                    </button>
+                </div>
+            </section>
 
-            Download SafeExamBrowser
-        </a>
+            <!-- ===== STEP 2: Install ===== -->
+            <section id="step-2" class="hide wizard-section">
 
-        <a href="ujian.seb" download
-           class="bg-gray-800 border border-gray-600 px-6 py-3 rounded-xl shadow-lg hover:bg-gray-700 transition">
-            Download File Ujian (.seb)
-        </a>
+                <!-- Android -->
+                <div id="install-android" class="hide">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-white mb-2">Install aplikasi</h2>
+                        <p class="text-gray-400">Download dan install browser ujian untuk Android</p>
+                    </div>
 
-        <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 text-left text-gray-300 text-sm leading-relaxed max-w-xl">
-            <h3 class="text-white font-bold mb-3">Cara Menggunakan (Apple)</h3>
-            1. Download dan install SafeExamBrowser.<br>
-            2. Download file ujian (.seb).<br>
-            3. Buka file ujian (.seb) tersebut untuk masuk ke ujian atau bagikan ke SEB.<br><br>
-            <b>Penting:</b><br>
-            • Jangan menutup aplikasi selama ujian.<br>
-            • Jangan membuka aplikasi lain.<br>
-	• Tidak ada pembukaan blokir.
+                    <div class="glass-card rounded-3xl p-8 text-center">
+                        <!-- App icon -->
+                        <div class="relative inline-block mb-5">
+                            <div class="absolute inset-0 bg-gradient-to-br from-pink-500 to-purple-500 rounded-2xl opacity-20 blur-xl"></div>
+                            <img src="https://play-lh.googleusercontent.com/NJj3I3riMfUtw_9qHH9nDA58oRiNeqeAvyJEziay2k37k7yjmyQzDY195lntqD7aqQ=w240-h480-rw"
+                                 class="relative h-16 w-16 rounded-2xl shadow-2xl" alt="Extraordinary CBT">
+                        </div>
+                        <h3 class="text-white font-bold text-lg mb-1">Extraordinary CBT Browser</h3>
+                        <p class="text-gray-400 text-sm mb-6">Browser terkunci untuk pelaksanaan ujian yang aman</p>
+
+                        <a href="https://play.google.com/store/apps/details?id=id.shellrean.exocbt.browser&hl=id"
+                           target="_blank"
+                           class="btn-primary inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-105">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+                            </svg>
+                            Download di Play Store
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Apple -->
+                <div id="install-apple" class="hide">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-white mb-2">Install aplikasi</h2>
+                        <p class="text-gray-400">Download dan install browser ujian untuk perangkat Apple</p>
+                    </div>
+
+                    <div class="glass-card rounded-3xl p-8 text-center">
+                        <div class="relative inline-block mb-5">
+                            <div class="absolute inset-0 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-2xl opacity-20 blur-xl"></div>
+                            <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a0/c9/43/a0c94383-a702-e34b-b1cf-089332b10a31/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/200x200ia-75.webp"
+                                 class="relative h-16 w-16 rounded-2xl shadow-2xl" alt="Safe Exam Browser">
+                        </div>
+                        <h3 class="text-white font-bold text-lg mb-1">Safe Exam Browser</h3>
+                        <p class="text-gray-400 text-sm mb-6">Browser ujian resmi untuk perangkat Apple</p>
+
+                        <a href="https://apps.apple.com/id/app/safeexambrowser/id1155002964?l=id"
+                           target="_blank"
+                           class="btn-primary inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-105">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                            </svg>
+                            Download di App Store
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Nav -->
+                <div class="flex items-center justify-between mt-10">
+                    <button onclick="goToStep(1)" class="text-gray-400 hover:text-white text-sm font-medium transition flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                        Kembali
+                    </button>
+                    <button onclick="goToStep(3)" class="btn-primary group px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-lg hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-105 text-sm flex items-center gap-2">
+                        Sudah Install
+                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ===== STEP 3: Konfigurasi ===== -->
+            <section id="step-3" class="hide wizard-section">
+
+                <!-- Android Config -->
+                <div id="config-android" class="hide">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-white mb-2">Mulai ujian</h2>
+                        <p class="text-gray-400">Scan QR Code berikut menggunakan aplikasi CBT</p>
+                    </div>
+
+                    <!-- QR Code with glass -->
+                    <div class="flex justify-center mb-8">
+                        <div class="relative">
+                            <div class="absolute inset-0 bg-gradient-to-br from-pink-600 to-purple-600 rounded-3xl opacity-20 blur-3xl"></div>
+                            <div class="relative bg-white rounded-3xl p-6 shadow-2xl">
+                                <img src="exo.png" class="w-48 h-48 sm:w-56 sm:h-56 object-contain" alt="QR Code Ujian">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Steps -->
+                    <div class="space-y-3 mb-8">
+                        <div class="glass-card rounded-xl p-4 flex items-start gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-pink-500 to-rose-500 rounded-lg flex items-center justify-center text-xs font-bold">1</div>
+                            <p class="text-gray-300 text-sm pt-1">Buka aplikasi Extraordinary CBT dan izinkan <strong class="text-white">mode Jangan Ganggu</strong>.</p>
+                        </div>
+                        <div class="glass-card rounded-xl p-4 flex items-start gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center text-xs font-bold">2</div>
+                            <p class="text-gray-300 text-sm pt-1">Scan QR Code di atas untuk masuk ke halaman ujian.</p>
+                        </div>
+                        <div class="glass-card rounded-xl p-4 flex items-start gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center text-xs font-bold">3</div>
+                            <p class="text-gray-300 text-sm pt-1">Kerjakan ujian sampai selesai dan submit jawaban.</p>
+                        </div>
+                    </div>
+
+                    <!-- Warning -->
+                    <div class="glass-card rounded-2xl p-5 border-pink-500/20 bg-pink-500/5">
+                        <div class="flex items-center gap-2 mb-3">
+                            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>
+                            <span class="text-pink-300 text-sm font-semibold">Penting</span>
+                        </div>
+                        <ul class="text-gray-400 text-sm space-y-2 pl-7">
+                            <li>• Jangan keluar dari aplikasi saat ujian berlangsung</li>
+                            <li>• Pastikan baterai dan koneksi internet stabil</li>
+                            <li>• Tidak ada pembukaan blokir</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apple Config -->
+                <div id="config-apple" class="hide">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-white mb-2">Mulai ujian</h2>
+                        <p class="text-gray-400">Download file konfigurasi dan buka dengan Safe Exam Browser</p>
+                    </div>
+
+                    <!-- Download file -->
+                    <div class="glass-card rounded-3xl p-8 text-center mb-8">
+                        <div class="relative inline-block mb-5">
+                            <div class="absolute inset-0 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl opacity-20 blur-xl"></div>
+                            <div class="relative w-14 h-14 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-2xl flex items-center justify-center">
+                                <svg class="w-7 h-7 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="text-white font-bold text-lg mb-1">File Konfigurasi Ujian</h3>
+                        <p class="text-gray-400 text-sm mb-6">Download dan buka file ini menggunakan Safe Exam Browser</p>
+
+                        <a href="ujian.seb" download
+                           class="btn-primary inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-105">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                            </svg>
+                            Download ujian.seb
+                        </a>
+                    </div>
+
+                    <!-- Steps -->
+                    <div class="space-y-3 mb-8">
+                        <div class="glass-card rounded-xl p-4 flex items-start gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-pink-500 to-rose-500 rounded-lg flex items-center justify-center text-xs font-bold">1</div>
+                            <p class="text-gray-300 text-sm pt-1">Download file <strong class="text-white">ujian.seb</strong> di atas.</p>
+                        </div>
+                        <div class="glass-card rounded-xl p-4 flex items-start gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center text-xs font-bold">2</div>
+                            <p class="text-gray-300 text-sm pt-1">Buka file tersebut — otomatis terbuka di Safe Exam Browser.</p>
+                        </div>
+                        <div class="glass-card rounded-xl p-4 flex items-start gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center text-xs font-bold">3</div>
+                            <p class="text-gray-300 text-sm pt-1">Jika tidak terbuka otomatis, buka SEB lalu <strong class="text-white">bagikan file</strong> ke aplikasi SEB.</p>
+                        </div>
+                    </div>
+
+                    <!-- Warning -->
+                    <div class="glass-card rounded-2xl p-5 border-pink-500/20 bg-pink-500/5">
+                        <div class="flex items-center gap-2 mb-3">
+                            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>
+                            <span class="text-pink-300 text-sm font-semibold">Penting</span>
+                        </div>
+                        <ul class="text-gray-400 text-sm space-y-2 pl-7">
+                            <li>• Jangan menutup aplikasi selama ujian berlangsung</li>
+                            <li>• Jangan membuka aplikasi lain</li>
+                            <li>• Tidak ada pembukaan blokir</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Nav -->
+                <div class="flex items-center justify-between mt-10">
+                    <button onclick="goToStep(2)" class="text-gray-400 hover:text-white text-sm font-medium transition flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                        Kembali
+                    </button>
+                    <button onclick="goToStep(4)" class="btn-primary group px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-lg hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-105 text-sm flex items-center gap-2">
+                        Mulai Simulasi
+                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ===== STEP 4: Simulasi Ujian ===== -->
+            <section id="step-4" class="hide wizard-section">
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-white mb-2">Mulai simulasi ujian</h2>
+                    <p class="text-gray-400">Pastikan semua langkah sebelumnya sudah selesai, lalu mulai simulasi</p>
+                </div>
+
+                <div class="glass-card rounded-3xl p-8 text-center mb-8">
+                    <div class="relative inline-block mb-5">
+                        <div class="absolute inset-0 bg-gradient-to-br from-pink-500 via-purple-500 to-cyan-500 rounded-full opacity-20 blur-xl"></div>
+                        <div class="relative w-16 h-16 bg-gradient-to-br from-pink-500/20 to-cyan-500/20 rounded-full flex items-center justify-center">
+                            <svg class="w-8 h-8 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-white font-bold text-lg mb-2">Siap Mengerjakan Ujian</h3>
+                    <p class="text-gray-400 text-sm mb-6">Klik tombol di bawah untuk membuka aplikasi ujian. Pastikan koneksi internet stabil dan perangkat sudah dikonfigurasi.</p>
+
+                    <button onclick="startExam()"
+                       class="btn-primary inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Mulai Simulasi Ujian
+                    </button>
+                </div>
+
+                <!-- Checklist -->
+                <div class="space-y-3 mb-8">
+                    <div class="glass-card rounded-xl p-4 flex items-center gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-pink-500 to-rose-500 rounded-lg flex items-center justify-center">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <p class="text-gray-300 text-sm">Perangkat sudah dipilih</p>
+                    </div>
+                    <div class="glass-card rounded-xl p-4 flex items-center gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <p class="text-gray-300 text-sm">Aplikasi sudah terinstall</p>
+                    </div>
+                    <div class="glass-card rounded-xl p-4 flex items-center gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <p class="text-gray-300 text-sm">Konfigurasi ujian selesai</p>
+                    </div>
+                </div>
+
+                <!-- Nav -->
+                <div class="flex items-center justify-between mt-10">
+                    <button onclick="goToStep(3)" class="text-gray-400 hover:text-white text-sm font-medium transition flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                        Kembali
+                    </button>
+                </div>
+            </section>
 
         </div>
 
-    </div>
+        <!-- Help CTA -->
+        <div class="mt-16">
+            <a href="https://wa.me/628558833128" target="_blank"
+               class="group inline-flex items-center gap-3 px-6 py-3 border-2 border-gray-700 hover:border-pink-500 text-white font-semibold rounded-2xl hover:bg-gray-900/50 transition-all duration-300">
+                <svg class="w-5 h-5 text-green-400" viewBox="0 0 32 32" fill="currentColor">
+                    <path d="M16.02 3.2A12.74 12.74 0 0 0 5.1 22.5L3.6 28.8l6.43-1.5A12.76 12.76 0 1 0 16.02 3.2Zm0 23.16c-2.03 0-3.91-.59-5.51-1.61l-.4-.25-3.8.89.9-3.7-.27-.42a10.28 10.28 0 1 1 9.08 5.09Zm5.94-7.68c-.32-.16-1.9-.94-2.2-1.05-.3-.11-.51-.16-.73.16-.21.32-.84 1.05-1.03 1.27-.19.21-.38.24-.7.08-.32-.16-1.35-.5-2.57-1.58-.95-.85-1.59-1.9-1.78-2.22-.19-.32-.02-.49.14-.65.15-.15.32-.38.49-.57.16-.19.21-.32.32-.54.11-.21.05-.4-.03-.56-.08-.16-.73-1.75-1-2.4-.26-.63-.53-.54-.73-.55h-.62c-.21 0-.56.08-.86.4-.3.32-1.13 1.1-1.13 2.68s1.16 3.12 1.32 3.33c.16.21 2.28 3.48 5.53 4.88.77.33 1.37.53 1.84.68.77.24 1.47.21 2.03.13.62-.09 1.9-.78 2.17-1.53.27-.75.27-1.4.19-1.53-.08-.13-.29-.21-.61-.38Z"/>
+                </svg>
+                Mengalami kendala? <span class="text-pink-400 group-hover:text-pink-300">Hubungi Pak Ugas</span>
+            </a>
+        </div>
 
-</div>
+        <!-- Quote -->
+        <div class="mt-8 max-w-md">
+           <center><p class="text-xl text-white-500 italic leading-relaxed">
+                "Ujian sesungguhnya adalah ketika
+                <span class="bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent font-bold not-italic">saat tidak ada yang melihat.</span>"
+            </p></center> 
+        </div>
 
-<div class="mt-12 flex justify-center">
+    </main>
 
-    <a href="https://wa.me/628558833128"
-       target="_blank"
-       class="bg-green-600 hover:bg-green-700 
-              text-white font-bold 
-              px-8 py-4 
-              rounded-xl 
-              shadow-lg 
-              transition 
-              flex items-center gap-3">
+    <script>
+        let currentStep = 1;
+        let selectedPlatform = null;
 
-        <!-- Icon WhatsApp -->
-        <svg xmlns="http://www.w3.org/2000/svg" 
-             viewBox="0 0 24 24" 
-             fill="currentColor" 
-             class="w-6 h-6">
-            <path d="M20.52 3.48A11.82 11.82 0 0012.01 0C5.38 0 .02 5.36.02 12c0 2.11.55 4.17 1.59 5.99L0 24l6.18-1.61A11.94 11.94 0 0012 24c6.63 0 11.99-5.36 11.99-12 0-3.2-1.25-6.2-3.47-8.52zM12 21.82c-1.88 0-3.72-.5-5.33-1.44l-.38-.22-3.67.96.98-3.58-.25-.37A9.77 9.77 0 012.23 12c0-5.39 4.38-9.77 9.77-9.77 2.61 0 5.06 1.02 6.91 2.86A9.73 9.73 0 0121.77 12c0 5.39-4.38 9.82-9.77 9.82z"/>
-        </svg>
+        function selectPlatform(platform) {
+            selectedPlatform = platform;
 
-        Jika Mengalami Kendala, Hubungi Pak Ugas
-    </a>
+            // Visual feedback
+            document.getElementById('card-android').classList.remove('active');
+            document.getElementById('card-apple').classList.remove('active');
+            document.getElementById('card-' + platform).classList.add('active');
 
-</div>
+            // Auto advance
+            setTimeout(() => goToStep(2), 400);
+        }
 
-<!-- KUTIPAN -->
-<div class="mt-16 text-center">
-    <h2 class="text-3xl md:text-5xl font-bold mb-5">
-        "Ujian sesungguhnya adalah integritasmu 
-        <span class="bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent">
-            saat tidak ada yang melihat.
-        </span>"
-    </h2>
-</div>
+        function startExam() {
+            if (selectedPlatform === 'android') {
+                // Redirect ke app Extraordinary CBT (deep link atau Play Store)
+                window.location.href = 'exocbt://start';
+                // Fallback ke Play Store jika app belum terinstall
+                setTimeout(function() {
+                    window.location.href = 'https://play.google.com/store/apps/details?id=id.shellrean.exocbt.browser&hl=id';
+                }, 1500);
+            } else if (selectedPlatform === 'apple') {
+                // Langsung download/buka file .seb
+                window.location.href = 'ujian.seb';
+            }
+        }
 
-</div>
+        function goToStep(step) {
+            if (!selectedPlatform && step > 1) return;
+            currentStep = step;
 
+            // Hide all
+            document.getElementById('step-1').classList.add('hide');
+            document.getElementById('step-2').classList.add('hide');
+            document.getElementById('step-3').classList.add('hide');
+            document.getElementById('step-4').classList.add('hide');
 
+            // Show current
+            document.getElementById('step-' + step).classList.remove('hide');
 
-<script>
-function pilihPlatform(platform) {
-    const android = document.getElementById('section-android');
-    const apple = document.getElementById('section-apple');
+            // Platform content
+            if (step === 2) {
+                document.getElementById('install-android').classList.add('hide');
+                document.getElementById('install-apple').classList.add('hide');
+                document.getElementById('install-' + selectedPlatform).classList.remove('hide');
+            }
+            if (step === 3) {
+                document.getElementById('config-android').classList.add('hide');
+                document.getElementById('config-apple').classList.add('hide');
+                document.getElementById('config-' + selectedPlatform).classList.remove('hide');
+            }
 
-    android.classList.add('hidden');
-    apple.classList.add('hidden');
+            updateProgress(step);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-    if (platform === 'android') {
-        android.classList.remove('hidden');
-    } else {
-        apple.classList.remove('hidden');
-    }
-}
-</script>
+        function updateProgress(step) {
+            const gradients = [
+                'bg-gradient-to-br from-pink-500 to-rose-500',
+                'bg-gradient-to-br from-purple-500 to-indigo-500',
+                'bg-gradient-to-br from-cyan-500 to-blue-500',
+                'bg-gradient-to-br from-blue-500 to-cyan-500'
+            ];
+            const colors = ['text-pink-400', 'text-purple-400', 'text-cyan-400', 'text-blue-400'];
+
+            for (let i = 1; i <= 4; i++) {
+                const dot = document.getElementById('dot-' + i);
+                const lbl = document.getElementById('lbl-' + i);
+
+                if (i < step) {
+                    // Completed
+                    dot.className = 'step-dot w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ' + gradients[i-1] + ' text-white';
+                    dot.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>';
+                    lbl.className = 'text-[11px] mt-2 font-medium ' + colors[i-1];
+                } else if (i === step) {
+                    // Active
+                    dot.className = 'step-dot w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ' + gradients[i-1] + ' text-white shadow-lg shadow-pink-500/30';
+                    dot.textContent = i;
+                    lbl.className = 'text-[11px] mt-2 font-medium ' + colors[i-1];
+                } else {
+                    // Inactive
+                    dot.className = 'step-dot w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold bg-gray-900 text-gray-500 border border-gray-800';
+                    dot.textContent = i;
+                    lbl.className = 'text-[11px] mt-2 font-medium text-gray-500';
+                }
+            }
+
+            // Connectors
+            const conn1 = document.getElementById('conn-1');
+            const conn2 = document.getElementById('conn-2');
+            const conn3 = document.getElementById('conn-3');
+            conn1.style.background = step > 1 ? 'linear-gradient(90deg, #ec4899, #a855f7)' : '#1f2937';
+            conn2.style.background = step > 2 ? 'linear-gradient(90deg, #a855f7, #06b6d4)' : '#1f2937';
+            conn3.style.background = step > 3 ? 'linear-gradient(90deg, #06b6d4, #3b82f6)' : '#1f2937';
+        }
+    </script>
+
+    <!-- Typing Effect -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var titleEl = document.getElementById('typed-title');
+            var descEl = document.getElementById('typed-desc');
+            var caretTitle = document.getElementById('caret-title');
+            var caretDesc = document.getElementById('caret-desc');
+
+            var titleTexts = ['Persiapan Ujian', 'Konfigurasi Perangkat', 'Important things', 'Wajib dilakukan'];
+            var descText = 'Untuk menjaga integritas, ujian hanya dapat dilaksanakan menggunakan aplikasi khusus.';
+
+            var typeSpeed = 65;
+            var deleteSpeed = 30;
+            var pauseBetween = 2200;
+
+            // Type one character at a time
+            function typeText(el, text, speed, cb) {
+                var i = 0;
+                function next() {
+                    if (i <= text.length) {
+                        el.textContent = text.slice(0, i);
+                        i++;
+                        setTimeout(next, speed);
+                    } else if (cb) {
+                        cb();
+                    }
+                }
+                next();
+            }
+
+            // Delete text character by character
+            function deleteText(el, speed, cb) {
+                var text = el.textContent;
+                var i = text.length;
+                function next() {
+                    if (i >= 0) {
+                        el.textContent = text.slice(0, i);
+                        i--;
+                        setTimeout(next, speed);
+                    } else if (cb) {
+                        cb();
+                    }
+                }
+                next();
+            }
+
+            // Title loop
+            var titleIndex = 0;
+            function cycleTitle() {
+                typeText(titleEl, titleTexts[titleIndex], typeSpeed, function() {
+                    setTimeout(function() {
+                        deleteText(titleEl, deleteSpeed, function() {
+                            titleIndex = (titleIndex + 1) % titleTexts.length;
+                            setTimeout(cycleTitle, 400);
+                        });
+                    }, pauseBetween);
+                });
+            }
+
+            // Init
+            titleEl.textContent = '';
+            descEl.textContent = '';
+            caretTitle.style.display = 'none';
+            caretDesc.style.display = 'inline-block';
+
+            // Start typing description first
+            setTimeout(function() {
+                typeText(descEl, descText, 25, function() {
+                    caretDesc.style.display = 'none';
+                    caretTitle.style.display = 'inline-block';
+                    setTimeout(cycleTitle, 500);
+                });
+            }, 500);
+        });
+    </script>
 
 </body>
 </html>
