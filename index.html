@@ -2,7 +2,11 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#000000">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>Konfigurasi Ujian — Extraordinary CBT</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -18,6 +22,11 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         .hide { display: none !important; }
+
+        /* Fullscreen edge-to-edge - background extends behind status bar */
+        html, body {
+            background-color: #000;
+        }
 
         /* Anamorphic glass effect */
         .glass-card {
@@ -131,246 +140,99 @@
         @keyframes caretBlink {
             50% { opacity: 0; }
         }
-
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 50;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-        }
-
-        .modal-overlay.hide {
-            display: none !important;
-        }
-
-        .modal-content {
-            background: rgba(17, 24, 39, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 2rem;
-            max-width: 600px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: 2rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .modal-content::-webkit-scrollbar-track {
-            background: rgba(31, 41, 55, 0.5);
-            border-radius: 4px;
-        }
-
-        .modal-content::-webkit-scrollbar-thumb {
-            background: rgba(236, 72, 153, 0.5);
-            border-radius: 4px;
-        }
-
-        .modal-content::-webkit-scrollbar-thumb:hover {
-            background: rgba(236, 72, 153, 0.7);
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: linear-gradient(90deg, #ec4899, #a855f7, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-section-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #ec4899;
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .modal-section:first-child .modal-section-title {
-            margin-top: 0;
-        }
-
-        .modal-list {
-            list-style: none;
-            padding: 0;
-            margin: 0.5rem 0 1rem 0;
-        }
-
-        .modal-list li {
-            color: #d1d5db;
-            font-size: 0.95rem;
-            margin-bottom: 0.5rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .modal-list li:before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: #a855f7;
-            font-weight: bold;
-        }
-
-        .modal-checkbox-container {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            margin: 1.5rem 0;
-            padding: 1rem;
-            background: rgba(236, 72, 153, 0.05);
-            border: 1px solid rgba(236, 72, 153, 0.2);
-            border-radius: 0.75rem;
-        }
-
-        .modal-checkbox {
-            width: 1.25rem;
-            height: 1.25rem;
-            min-width: 1.25rem;
-            margin-top: 0.25rem;
-            cursor: pointer;
-            accent-color: #ec4899;
-        }
-
-        .modal-checkbox-label {
-            color: #e5e7eb;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .modal-btn-cancel {
-            flex: 1;
-            padding: 0.75rem 1.5rem;
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            color: #9ca3af;
-            font-weight: 600;
-            border-radius: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .modal-btn-cancel:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            color: #fff;
-        }
-
-        .modal-btn-continue {
-            flex: 1;
-            padding: 0.75rem 1.5rem;
-            background: linear-gradient(135deg, #ec4899, #a855f7);
-            color: white;
-            font-weight: 600;
-            border: none;
-            border-radius: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
-        .modal-btn-continue:not(:disabled) {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-btn-continue:not(:disabled):hover {
-            box-shadow: 0 12px 40px rgba(236, 72, 153, 0.3);
-            transform: translateY(-2px);
-        }
     </style>
 </head>
 
-<body class="bg-black text-white min-h-screen antialiased overflow-x-hidden">
+<body class="bg-black text-white min-h-[100dvh] antialiased overflow-x-hidden">
 
-    <!-- Anamorphic Glass Orbs -->
-    <div class="orb-pink"></div>
-    <div class="orb-purple"></div>
-    <div class="orb-cyan"></div>
+    <!-- Anamorphic Glass Orbs - extend behind status bar -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none" style="top: calc(-1 * env(safe-area-inset-top, 0px));">
+        <div class="orb-pink"></div>
+        <div class="orb-purple"></div>
+        <div class="orb-cyan"></div>
+    </div>
 
-    <!-- Modal Pernyataan -->
-    <div id="statementModal" class="modal-overlay">
-        <div class="modal-content">
-            <h2 class="modal-title">Pernyataan Peserta Ujian CBT</h2>
+    <!-- Modal Pernyataan Peserta -->
+    <div id="modal-overlay" class="fixed inset-0 z-[100] flex items-center justify-center p-4" style="background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
+        <div class="w-full max-w-lg max-h-[85dvh] overflow-y-auto bg-gray-950 border border-gray-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+            
+            <!-- Header -->
+            <div class="text-center mb-6">
+                <div class="w-14 h-14 mx-auto mb-4 bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-2xl flex items-center justify-center">
+                    <svg class="w-7 h-7 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                </div>
+                <h2 class="text-xl sm:text-2xl font-bold text-white mb-1">Pernyataan Peserta Ujian CBT</h2>
+                <p class="text-gray-400 text-sm">Harap membaca dan memahami ketentuan berikut sebelum melanjutkan.</p>
+            </div>
 
             <!-- Yang Harus Dilakukan -->
-            <div class="modal-section">
-                <h3 class="modal-section-title">✅ Yang Harus Dilakukan</h3>
-                <ul class="modal-list">
-                    <li>Menggunakan HP pribadi dan aplikasi ujian yang telah ditentukan</li>
-                    <li>Pastikan nama peserta dan nomor ujian sudah benar</li>
-                    <li>Gunakan Data Seluler (Kuota). WiFi dan Hotspot tidak diperbolehkan</li>
-                    <li>Pastikan baterai HP cukup (minimal 80% atau membawa power bank)</li>
-                    <li>Atur Waktu Tunggu Layar menjadi 30 Menit atau Tidak Pernah</li>
-                    <li>Aktifkan mode Jangan Ganggu agar tidak ada panggilan atau notifikasi</li>
-                    <li>Jika mengalami kendala, segera laporkan kepada Pengawas Ruang</li>
+            <div class="mb-5">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-lg">✅</span>
+                    <h3 class="text-white font-semibold text-sm">Yang Harus Dilakukan</h3>
+                </div>
+                <ul class="text-gray-300 text-xs sm:text-sm space-y-2 pl-7">
+                    <li>• Menggunakan HP pribadi dan aplikasi ujian yang telah ditentukan.</li>
+                    <li>• Pastikan nama peserta dan nomor ujian sudah benar.</li>
+                    <li>• Gunakan <strong class="text-white">Data Seluler (Kuota)</strong>. WiFi dan Hotspot tidak diperbolehkan.</li>
+                    <li>• Pastikan baterai HP cukup (disarankan minimal 80% atau membawa power bank).</li>
+                    <li>• Atur <strong class="text-white">Waktu Tunggu Layar</strong> menjadi 30 Menit atau Tidak Pernah.</li>
+                    <li>• Aktifkan mode <strong class="text-white">Jangan Ganggu</strong> (Do Not Disturb) agar tidak ada panggilan atau notifikasi masuk.</li>
+                    <li>• Jika mengalami kendala selama ujian, segera laporkan kepada Pengawas Ruang.</li>
                 </ul>
             </div>
 
             <!-- Hal yang Menyebabkan Akun Terblokir -->
-            <div class="modal-section">
-                <h3 class="modal-section-title">❌ Hal yang Menyebabkan Akun Terblokir</h3>
-                <p style="color: #9ca3af; margin: 0.5rem 0 1rem 0;">Akun akan terblokir secara otomatis apabila peserta:</p>
-                <ul class="modal-list">
-                    <li>Keluar dari aplikasi ujian</li>
-                    <li>Menekan tombol Volume, Home, Back, atau Recent Apps</li>
-                    <li>Membuka aplikasi lain, Split Screen, Floating Apps, atau multitasking</li>
-                    <li>Layar HP mati atau terkunci</li>
-                    <li>Menerima panggilan telepon atau notifikasi saat ujian berlangsung</li>
-                    <li>Melakukan segala bentuk kecurangan</li>
+            <div class="mb-5">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-lg">❌</span>
+                    <h3 class="text-white font-semibold text-sm">Hal yang Menyebabkan Akun Terblokir</h3>
+                </div>
+                <p class="text-gray-400 text-xs sm:text-sm mb-2 pl-7">Akun akan terblokir secara otomatis apabila peserta:</p>
+                <ul class="text-gray-300 text-xs sm:text-sm space-y-2 pl-7">
+                    <li>• Keluar dari aplikasi ujian.</li>
+                    <li>• Menekan tombol Volume, Home, Back, atau Recent Apps.</li>
+                    <li>• Membuka aplikasi lain, Split Screen, Floating Apps, atau bentuk multitasking lainnya.</li>
+                    <li>• Layar HP mati atau terkunci.</li>
+                    <li>• Menerima panggilan telepon atau notifikasi saat ujian berlangsung.</li>
+                    <li>• Melakukan segala bentuk kecurangan.</li>
                 </ul>
             </div>
 
-            <!-- Pernyataan Resmi -->
-            <div class="modal-section">
-                <h3 class="modal-section-title">⚠️ Pernyataan Resmi</h3>
-                <p style="color: #d1d5db; font-size: 0.95rem; line-height: 1.6; margin: 0.5rem 0 1rem 0;">
-                    Saya menyatakan telah membaca, memahami, dan bersedia mematuhi seluruh ketentuan ujian CBT. Saya memahami bahwa akun yang terblokir karena pelanggaran tidak dapat dibuka kembali, sehingga seluruh risiko akibat pelanggaran menjadi tanggung jawab saya.
+            <!-- Pernyataan -->
+            <div class="mb-6 p-4 rounded-xl border border-pink-500/20 bg-pink-500/5">
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="text-lg">⚠️</span>
+                    <h3 class="text-pink-300 font-semibold text-sm">Pernyataan</h3>
+                </div>
+                <p class="text-gray-300 text-xs sm:text-sm leading-relaxed pl-7">
+                    Saya menyatakan telah membaca, memahami, dan bersedia mematuhi seluruh ketentuan ujian CBT. Saya memahami bahwa <strong class="text-white">akun yang terblokir karena pelanggaran tidak dapat dibuka kembali</strong>, sehingga seluruh risiko akibat pelanggaran menjadi tanggung jawab saya.
                 </p>
             </div>
 
-            <!-- Checkbox Persetujuan -->
-            <div class="modal-checkbox-container">
-                <input type="checkbox" id="agreeCheckbox" class="modal-checkbox" onchange="updateContinueButton()">
-                <label for="agreeCheckbox" class="modal-checkbox-label">
-                    Saya telah membaca dan memahami semua ketentuan di atas, dan setuju untuk mengikuti seluruh aturan ujian CBT.
+            <!-- Checkbox & Button -->
+            <div class="space-y-4">
+                <label class="flex items-start gap-3 cursor-pointer group" id="agree-label">
+                    <input type="checkbox" id="agree-checkbox" class="mt-1 w-4 h-4 rounded border-gray-600 bg-gray-800 text-pink-500 focus:ring-pink-500 focus:ring-offset-0 cursor-pointer">
+                    <span class="text-gray-300 text-xs sm:text-sm leading-relaxed group-hover:text-white transition">
+                        Dengan mencentang kotak ini dan menekan tombol di bawah, saya menyatakan setuju untuk mengikuti seluruh ketentuan di atas.
+                    </span>
                 </label>
-            </div>
 
-            <!-- Buttons -->
-            <div class="modal-buttons">
-                <button class="modal-btn-cancel" onclick="closeModal()">Batal</button>
-                <button class="modal-btn-continue" id="continueBtn" onclick="acceptStatement()" disabled>
+                <button id="btn-agree" onclick="closeModal()" disabled
+                    class="w-full py-4 bg-gray-800 text-gray-500 font-semibold rounded-2xl cursor-not-allowed transition-all duration-300 text-sm sm:text-base">
                     Saya Mengerti & Lanjutkan
                 </button>
             </div>
         </div>
     </div>
 
+
+
     <!-- Main -->
-    <main class="relative z-10 pt-16 pb-16 px-6 min-h-screen flex flex-col items-center">
+    <main class="relative z-10 pt-[calc(1rem+env(safe-area-inset-top))] pb-[calc(1rem+env(safe-area-inset-bottom))] px-[calc(1.5rem+env(safe-area-inset-left))] min-h-[100dvh] flex flex-col items-center">
 
         <!-- Header -->
         <header class="text-center mb-12 max-w-xl">
@@ -379,7 +241,7 @@
                 <span class="text-sm text-gray-300">Panduan Konfigurasi CBT SMAN 1 Lubai Ulu</span>
             </div>
             <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-5 min-h-[3.5rem] sm:min-h-[4rem] md:min-h-[4.5rem]">
-                <span id="typed-title" style="background:linear-gradient(90deg,#ec4899,#a855f7,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"></span>
+                <span id="typed-title" style="background:linear-gradient(90deg,#ec4899,#a855f7,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"></span><span id="caret-title" class="typing-caret"></span>
             </h1>
             <p class="text-lg text-gray-300 max-w-lg mx-auto leading-relaxed min-h-[3.5rem]">
                 <span id="typed-desc"></span><span id="caret-desc" class="typing-caret" style="display:none;"></span>
@@ -448,7 +310,7 @@
                         class="platform-card glass-card rounded-2xl p-6 text-left focus:outline-none focus:ring-2 focus:ring-pink-500/40">
                         <div class="w-12 h-12 bg-gradient-to-br from-pink-500/20 to-rose-500/20 rounded-2xl flex items-center justify-center mb-4">
                             <svg class="w-6 h-6 text-pink-400" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M17.523 15.341a.996.996 0 0 0 .993-1V8.007a.996.996 0 0 0-1.993 0v6.334c0 .553.446 1 .993 1h.007zM5.483 15.341a.996.996 0 0 0 .993-1V8.007a.996.996 0 0 0-1.993 0v6.334c0 .553.446 1 .993 1h.007z"/>
+                                <path d="M17.523 15.341a.996.996 0 0 0 .993-1V8.007a.996.996 0 0 0-1.993 0v6.334c0 .553.446 1 .993 1h.007zM5.483 15.341a.996.996 0 0 0 .993-1V8.007a.996.996 0 0 0-1.993 0v6.334c0 .553.446 1 .993 1h.007zM14.18 2.64l.914-1.51a.2.2 0 0 0-.07-.276.2.2 0 0 0-.272.071l-.93 1.535A5.647 5.647 0 0 0 12 2.051c-.717 0-1.396.146-2.013.408L9.057.924A.2.2 0 0 0 8.785.853a.2.2 0 0 0-.07.276l.914 1.51C8.127 3.476 7.094 5.166 7.094 7.093h9.812c0-1.927-1.033-3.617-2.726-4.453zM9.88 5.378a.495.495 0 1 1 0-.99.495.495 0 0 1 0 .99zm4.24 0a.495.495 0 1 1 0-.99.495.495 0 0 1 0 .99zM7.094 15.4c0 .607.476 1.1 1.063 1.1h.724v2.197a.996.996 0 0 0 1.993 0v-2.196h2.252v2.196a.996.996 0 0 0 1.993 0V16.5h.724c.587 0 1.063-.493 1.063-1.1V7.596H7.094V15.4z"/>
                             </svg>
                         </div>
                         <h3 class="text-white font-semibold text-lg mb-1">Android</h3>
@@ -460,7 +322,7 @@
                         class="platform-card glass-card rounded-2xl p-6 text-left focus:outline-none focus:ring-2 focus:ring-pink-500/40">
                         <div class="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 rounded-2xl flex items-center justify-center mb-4">
                             <svg class="w-6 h-6 text-gray-300" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.45-2.82 4.25-3.12 1.56-.23 3.06.54 3.92 1.08 1.07-.36 2.23-.84 3.34-.84 1.29 0 2.46.46 3.2 1.22 2.1 2.01.99 5.82-1.97 7.84z"/>
+                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                             </svg>
                         </div>
                         <h3 class="text-white font-semibold text-lg mb-1">Apple</h3>
@@ -491,9 +353,9 @@
 
                         <a href="https://play.google.com/store/apps/details?id=id.shellrean.exocbt.browser&hl=id"
                            target="_blank"
-                           class="btn-primary inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-2xl hover:shadow-pink-500/30 transition-all">
+                           class="btn-primary inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-105">
                             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.2,13.13L17.9,14.5L20.16,16.86C20.5,17.08 20.75,17.5 20.75,18C20.75,18.5 20.53,18.9 20.2,19.13L17.9,20.5L20.16,22.86C20.5,23.08 20.75,23.5 20.75,24C20.75,24.5 20.53,24.9 20.2,25.13L17.9,26.5L20.16,28.86C20.5,29.08 20.75,29.5 20.75,30C20.75,30.5 20.53,30.9 20.2,31.13L17.9,32.5L20.16,34.86C20.5,35.08 20.75,35.5 20.75,36C20.75,36.5 20.53,36.9 20.2,37.13L17.9,38.5L20.16,40.86C20.5,41.08 20.75,41.5 20.75,42C20.75,42.5 20.53,42.9 20.2,43.13L17.9,44.5L20.16,46.86C20.5,47.08 20.75,47.5 20.75,48C20.75,48.5 20.53,48.9 20.2,49.13L17.9,50.5L20.16,52.86C20.5,53.08 20.75,53.5 20.75,54C20.75,54.5 20.53,54.9 20.2,55.13L17.9,56.5L20.16,58.86C20.5,59.08 20.75,59.5 20.75,60C20.75,60.5 20.53,60.9 20.2,61.13L17.9,62.5L3,20.5Z"/>
+                                <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
                             </svg>
                             Download di Play Store
                         </a>
@@ -510,7 +372,7 @@
                     <div class="glass-card rounded-3xl p-8 text-center">
                         <div class="relative inline-block mb-5">
                             <div class="absolute inset-0 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-2xl opacity-20 blur-xl"></div>
-                            <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a0/c9/43/a0c94383-a702-e34b-b1cf-089332b10a31/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/200x200ia.jpg"
+                            <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a0/c9/43/a0c94383-a702-e34b-b1cf-089332b10a31/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/200x200ia-75.webp"
                                  class="relative h-16 w-16 rounded-2xl shadow-2xl" alt="Safe Exam Browser">
                         </div>
                         <h3 class="text-white font-bold text-lg mb-1">Safe Exam Browser</h3>
@@ -518,9 +380,9 @@
 
                         <a href="https://apps.apple.com/id/app/safeexambrowser/id1155002964?l=id"
                            target="_blank"
-                           class="btn-primary inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-2xl hover:shadow-pink-500/30 transition-all">
+                           class="btn-primary inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-105">
                             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.45-2.82 4.25-3.12 1.56-.23 3.06.54 3.92 1.08 1.07-.36 2.23-.84 3.34-.84 1.29 0 2.46.46 3.2 1.22 2.1 2.01.99 5.82-1.97 7.84z"/>
+                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                             </svg>
                             Download di App Store
                         </a>
@@ -533,9 +395,9 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                         Kembali
                     </button>
-                    <button onclick="goToStep(3)" class="btn-primary group px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-lg hover:shadow-pink-500/20 transition-all flex items-center gap-2">
+                    <button onclick="goToStep(3)" class="btn-primary group px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-lg hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-105 text-sm flex items-center gap-2">
                         Sudah Install
-                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </button>
                 </div>
             </section>
@@ -579,7 +441,7 @@
                     <!-- Warning -->
                     <div class="glass-card rounded-2xl p-5 border-pink-500/20 bg-pink-500/5">
                         <div class="flex items-center gap-2 mb-3">
-                            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4v2m0 4v2m0-14H9a3 3 0 00-3 3v6a3 3 0 003 3h6a3 3 0 003-3V9a3 3 0 00-3-3h-3zm0-2h3a1 1 0 110 2h-3a1 1 0 110-2z"/></svg>
+                            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>
                             <span class="text-pink-300 text-sm font-semibold">Penting</span>
                         </div>
                         <ul class="text-gray-400 text-sm space-y-2 pl-7">
@@ -611,7 +473,7 @@
                         <p class="text-gray-400 text-sm mb-6">Download dan buka file ini menggunakan Safe Exam Browser</p>
 
                         <a href="cbt1lu.seb" download
-                           class="btn-primary inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-2xl hover:shadow-pink-500/30 transition-all">
+                           class="btn-primary inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-105">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                             </svg>
@@ -638,7 +500,7 @@
                     <!-- Warning -->
                     <div class="glass-card rounded-2xl p-5 border-pink-500/20 bg-pink-500/5">
                         <div class="flex items-center gap-2 mb-3">
-                            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4v2m0 4v2m0-14H9a3 3 0 00-3 3v6a3 3 0 003 3h6a3 3 0 003-3V9a3 3 0 00-3-3h-3zm0-2h3a1 1 0 110 2h-3a1 1 0 110-2z"/></svg>
+                            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>
                             <span class="text-pink-300 text-sm font-semibold">Penting</span>
                         </div>
                         <ul class="text-gray-400 text-sm space-y-2 pl-7">
@@ -655,9 +517,9 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                         Kembali
                     </button>
-                    <button onclick="goToStep(4)" class="btn-primary group px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-lg hover:shadow-pink-500/20 transition-all flex items-center gap-2">
+                    <button onclick="goToStep(4)" class="btn-primary group px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-lg hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-105 text-sm flex items-center gap-2">
                         Mulai Simulasi
-                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </button>
                 </div>
             </section>
@@ -683,7 +545,7 @@
                     <p class="text-gray-400 text-sm mb-6">Klik tombol di bawah untuk membuka aplikasi ujian. Pastikan koneksi internet stabil dan perangkat sudah dikonfigurasi.</p>
 
                     <button onclick="startExam()"
-                       class="btn-primary inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-2xl hover:shadow-pink-500/30 transition-all">
+                       class="btn-primary inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-105">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -730,7 +592,7 @@
             <a href="https://wa.me/628558833128" target="_blank"
                class="group inline-flex items-center gap-3 px-6 py-3 border-2 border-gray-700 hover:border-pink-500 text-white font-semibold rounded-2xl hover:bg-gray-900/50 transition-all duration-300">
                 <svg class="w-5 h-5 text-green-400" viewBox="0 0 32 32" fill="currentColor">
-                    <path d="M16.02 3.2A12.74 12.74 0 0 0 5.1 22.5L3.6 28.8l6.43-1.5A12.76 12.76 0 1 0 16.02 3.2Zm0 23.16c-2.03 0-3.91-.59-5.51-1.61l-.4-.25-3.8.89.9-3.7-.27-.42a10.28 10.28 0 1 1 8.8 5.29Z"/>
+                    <path d="M16.02 3.2A12.74 12.74 0 0 0 5.1 22.5L3.6 28.8l6.43-1.5A12.76 12.76 0 1 0 16.02 3.2Zm0 23.16c-2.03 0-3.91-.59-5.51-1.61l-.4-.25-3.8.89.9-3.7-.27-.42a10.28 10.28 0 1 1 9.08 5.09Zm5.94-7.68c-.32-.16-1.9-.94-2.2-1.05-.3-.11-.51-.16-.73.16-.21.32-.84 1.05-1.03 1.27-.19.21-.38.24-.7.08-.32-.16-1.35-.5-2.57-1.58-.95-.85-1.59-1.9-1.78-2.22-.19-.32-.02-.49.14-.65.15-.15.32-.38.49-.57.16-.19.21-.32.32-.54.11-.21.05-.4-.03-.56-.08-.16-.73-1.75-1-2.4-.26-.63-.53-.54-.73-.55h-.62c-.21 0-.56.08-.86.4-.3.32-1.13 1.1-1.13 2.68s1.16 3.12 1.32 3.33c.16.21 2.28 3.48 5.53 4.88.77.33 1.37.53 1.84.68.77.24 1.47.21 2.03.13.62-.09 1.9-.78 2.17-1.53.27-.75.27-1.4.19-1.53-.08-.13-.29-.21-.61-.38Z"/>
                 </svg>
                 Mengalami kendala? <span class="text-pink-400 group-hover:text-pink-300">Hubungi Pak Ugas</span>
             </a>
@@ -749,7 +611,6 @@
     <script>
         let currentStep = 1;
         let selectedPlatform = null;
-        let statementAccepted = false;
 
         function selectPlatform(platform) {
             selectedPlatform = platform;
@@ -778,10 +639,6 @@
         }
 
         function goToStep(step) {
-            if (!statementAccepted) {
-                openModal();
-                return;
-            }
             if (!selectedPlatform && step > 1) return;
             currentStep = step;
 
@@ -849,37 +706,6 @@
             conn2.style.background = step > 2 ? 'linear-gradient(90deg, #a855f7, #06b6d4)' : '#1f2937';
             conn3.style.background = step > 3 ? 'linear-gradient(90deg, #06b6d4, #3b82f6)' : '#1f2937';
         }
-
-        // Modal functions
-        function openModal() {
-            document.getElementById('statementModal').classList.remove('hide');
-        }
-
-        function closeModal() {
-            document.getElementById('statementModal').classList.add('hide');
-        }
-
-        function updateContinueButton() {
-            const checkbox = document.getElementById('agreeCheckbox');
-            const continueBtn = document.getElementById('continueBtn');
-            if (checkbox.checked) {
-                continueBtn.disabled = false;
-            } else {
-                continueBtn.disabled = true;
-            }
-        }
-
-        function acceptStatement() {
-            statementAccepted = true;
-            closeModal();
-        }
-
-        // Show modal on page load
-        window.addEventListener('load', function() {
-            if (!statementAccepted) {
-                openModal();
-            }
-        });
     </script>
 
     <!-- Typing Effect -->
@@ -956,6 +782,34 @@
                 });
             }, 500);
         });
+    </script>
+
+    <!-- Modal Logic -->
+    <script>
+        (function() {
+            var checkbox = document.getElementById('agree-checkbox');
+            var btn = document.getElementById('btn-agree');
+            var modal = document.getElementById('modal-overlay');
+
+            checkbox.addEventListener('change', function() {
+                if (checkbox.checked) {
+                    btn.disabled = false;
+                    btn.className = 'w-full py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl hover:shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-[1.02] cursor-pointer text-sm sm:text-base';
+                } else {
+                    btn.disabled = true;
+                    btn.className = 'w-full py-4 bg-gray-800 text-gray-500 font-semibold rounded-2xl cursor-not-allowed transition-all duration-300 text-sm sm:text-base';
+                }
+            });
+        })();
+
+        function closeModal() {
+            var modal = document.getElementById('modal-overlay');
+            modal.style.opacity = '0';
+            modal.style.transition = 'opacity 0.3s ease';
+            setTimeout(function() {
+                modal.style.display = 'none';
+            }, 300);
+        }
     </script>
 
 </body>
